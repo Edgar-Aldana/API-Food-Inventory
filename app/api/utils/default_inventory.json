@@ -1,0 +1,31 @@
+{
+    "categories": [
+      {"name": "Bebidas"},
+      {"name": "Comida Rápida"},
+      {"name": "Postres"},
+      {"name": "Snacks"},
+      {"name": "Lácteos"}
+    ],
+  
+    "products": [
+      {"name": "Coca Cola", "description": "Refresco sabor cola 355ml", "price": 1.50, "category": "Bebidas", "supplier": "Bebidas del Sur"},
+      {"name": "Pepsi", "description": "Refresco sabor cola 355ml", "price": 1.40, "category": "Bebidas", "supplier": "Bebidas del Sur"},
+      {"name": "Jugo de Naranja", "description": "Jugo natural de naranja 500ml", "price": 2.00, "category": "Bebidas", "supplier": "Distribuidora Central"},
+      {"name": "Agua Mineral", "description": "Agua mineral sin gas 600ml", "price": 1.00, "category": "Bebidas", "supplier": "Distribuidora Central"},
+      
+      {"name": "Hamburguesa Clásica", "description": "Carne de res, lechuga, tomate, pan artesanal", "price": 5.50, "category": "Comida Rápida", "supplier": "Distribuidora Central"},
+      {"name": "Pizza Pepperoni", "description": "Pizza mediana con pepperoni", "price": 8.00, "category": "Comida Rápida", "supplier": "Distribuidora Central"},
+      {"name": "Tacos al Pastor", "description": "Tacos con carne de cerdo, piña y salsa", "price": 6.00, "category": "Comida Rápida", "supplier": "Distribuidora Central"},
+      
+      {"name": "Pastel de Chocolate", "description": "Porción de pastel con chocolate amargo", "price": 4.50, "category": "Postres", "supplier": "Panadería Dulce Hogar"},
+      {"name": "Flan de Vainilla", "description": "Postre suave con caramelo", "price": 3.50, "category": "Postres", "supplier": "Panadería Dulce Hogar"},
+      
+      {"name": "Papas Fritas", "description": "Bolsa de papas fritas 100g", "price": 1.80, "category": "Snacks", "supplier": "Distribuidora Central"},
+      {"name": "Galletas de Avena", "description": "Paquete de 6 galletas", "price": 2.20, "category": "Snacks", "supplier": "Panadería Dulce Hogar"},
+      
+      {"name": "Leche Entera", "description": "Leche pasteurizada 1L", "price": 2.50, "category": "Lácteos", "supplier": "Distribuidora Central"},
+      {"name": "Yogur Natural", "description": "Yogur sin azúcar 500ml", "price": 3.00, "category": "Lácteos", "supplier": "Distribuidora Central"},
+      {"name": "Queso Manchego", "description": "Porción de queso manchego 200g", "price": 5.00, "category": "Lácteos", "supplier": "Distribuidora Central"}
+    ]
+  }
+  
