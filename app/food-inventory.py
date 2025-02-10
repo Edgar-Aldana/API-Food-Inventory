@@ -17,6 +17,10 @@ except Exception as e:
 initialize_default_inventory(session)
 
 
+###### import routers ######
+from app.api.routers.products import products_router
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -28,6 +32,8 @@ app.add_middleware(
 )
 
 
+##### register routers ######
+app.include_router(products_router)
 
 
 @app.get("/")
