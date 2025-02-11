@@ -1,4 +1,5 @@
 from app.api.models.categories import Category
+from app.api.models.inventory import Inventory
 from ..schemas.product import ProductCreate, ProductBase, Product as ProductDB
 from ..models import Product
 from app.api.schemas.category import Category as CategorySchema
@@ -12,6 +13,15 @@ class ProductService:
     def find_all():
 
         products = [ProductDB(**product.__dict__) for product in Product.find_all()]
+
+        for product in products:
+            
+            category = Category.find_by_filter(id=product.category_id)
+            product.category = category.name
+
+            inventory = Inventory.find_by_filter(id=product.id)
+            product.stock = inventory.quantity
+
         return products
 
 

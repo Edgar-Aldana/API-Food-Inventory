@@ -20,3 +20,15 @@ class Category(Base):
             session.close()
 
 
+    def find_by_filter(**kwargs):
+        try:
+            response = session.query(Category).filter_by(**kwargs).first()
+            return response
+        except Exception as e:
+            return e
+        finally:
+            session.close()
+
+
+
+

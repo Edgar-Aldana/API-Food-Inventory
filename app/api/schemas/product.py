@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, Field
 
 from app.api.schemas.globals.responses import APIResponse
@@ -23,6 +23,8 @@ class ProductCreate(ProductBase):
 
 class Product(ProductBase):
     id: int
+    category: Optional[str] = None
+    stock: Optional[int] = None
 
     class Config:
         orm_mode = True
