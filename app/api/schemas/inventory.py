@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 class InventoryBase(BaseModel):
     product_id: int
@@ -10,8 +10,7 @@ class InventoryCreate(InventoryBase):
 class Inventory(InventoryBase):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(extra="allow")
 
 
 

@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel, Field
 
 from app.api.schemas.globals.responses import APIResponse
@@ -26,6 +27,16 @@ class Product(ProductBase):
     class Config:
         orm_mode = True
 
+
+class ProductRequestData(BaseModel):
+
+    product_id: int
+    quantity: int
+
+
+class ProductRequest(BaseModel):
+
+    products: List[ProductRequestData]
 
 
 ######## schemas output API Responses ########

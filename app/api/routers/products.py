@@ -1,6 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
+from app.api.schemas.globals.responses import APIResponse
 from app.api.services.product_services import ProductService
-from app.api.schemas.product import APIResponseGetAllProducts, GetAllProducts, ProductCreate, ProductBase
+from app.api.schemas.product import APIResponseGetAllProducts, GetAllProducts, ProductCreate, ProductBase, ProductRequest
+from app.api.services.inventory_services import InventoryService
 
 products_router = APIRouter(
     prefix="/products",
@@ -21,5 +23,25 @@ async def get_products():
 @products_router.get("/{product_id}")
 async def get_product(product_id: int):
     return ProductService.find_by_filter(id=product_id)
+
+
+
+@products_router.post("/request")
+async def request_products(request: ProductRequest):
+    try:
+        
+        for product in request.products:
+         
+            product_in_db = InventoryService.find_by_filter(id=product.product_id)
+            if product_in_db and product_in_db.quantity >= product.quantity:
+                InventoryService.stockOut(product.product_id, product.quantity)
+            else:
+                return APIResponse(success=False, message="Product not available", payload=None)
+        
+        return APIResponse(success=True, message="Products Requested", payload=None)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 
