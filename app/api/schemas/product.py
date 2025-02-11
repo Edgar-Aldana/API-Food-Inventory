@@ -25,6 +25,17 @@ class ProductCreate(BaseModel):
     price: float
     category: str
     stock: int
+
+
+
+class ProductUpdate(BaseModel):
+
+    id: int
+    name: str
+    category: str
+    description: str
+    price: float
+    stock: int
     
 
 

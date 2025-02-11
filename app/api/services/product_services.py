@@ -1,7 +1,7 @@
 from app.api.models.categories import Category
 from app.api.models.inventory import Inventory
 from app.api.services.inventory_services import TransactionService
-from ..schemas.product import ProductCreate, ProductBase, Product as ProductDB
+from ..schemas.product import ProductCreate, ProductBase, Product as ProductDB, ProductUpdate
 from ..models import Product
 from app.api.schemas.category import Category as CategorySchema
 
@@ -48,8 +48,19 @@ class ProductService:
         return ProductBase(**new_product.__dict__)
     
     @staticmethod
-    def update(product: ProductBase):
-        updated_product = Product.update(product.id, product)
+    def update(product: ProductUpdate):
+
+        product_id=product.id
+        product_data = ProductCreate(**product.dict())
+
+        updated_product = Product.update(product_id, product_data)
+        updated_inventory = Inventory.update(updated_product.id, product.stock)
+        
+        if product.stock > updated_inventory.quantity:
+            TransactionService.register("stock_in", product.stock - updated_inventory.quantity, updated_inventory.id)
+        elif product.stock < updated_inventory.quantity:
+            TransactionService.register("stock_out", updated_inventory.quantity - product.stock, updated_inventory.id)
+
         return ProductBase(**updated_product.__dict__)
     
 

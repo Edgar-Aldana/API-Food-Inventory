@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.api.schemas.globals.responses import APIResponse
 from app.api.services.product_services import ProductService
-from app.api.schemas.product import APIResponseGetAllProducts, GetAllProducts, ProductCreate, ProductBase, ProductRequest
+from app.api.schemas.product import APIResponseGetAllProducts, GetAllProducts, ProductCreate, ProductBase, ProductRequest, ProductUpdate
 from app.api.services.inventory_services import InventoryService
 
 products_router = APIRouter(
@@ -32,6 +32,12 @@ async def create_product(product: ProductCreate):
     response = ProductService.create(product)
     return APIResponse(success=True, message="Product Created", payload=response.dict()).dict()
 
+
+@products_router.put("/", response_model=APIResponse)
+async def update_product(product: ProductUpdate):
+
+    response = ProductService.update(product)
+    return APIResponse(success=True, message="Product Updated", payload=response.dict()).dict()
 
 
 @products_router.post("/request")

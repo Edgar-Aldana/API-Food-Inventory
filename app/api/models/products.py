@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 
+from app.api.models.categories import Category
 from app.api.schemas.product import ProductCreate
 from ..connection import session, Base
 from sqlalchemy.orm import relationship
@@ -56,10 +57,13 @@ class Product(Base):
             product_db.name = product.name
             product_db.description = product.description
             product_db.price = product.price
-            product_db.category_id = product.category_id
+
+            category_db = session.query(Category).filter_by(name=product.category).first()
+            product_db.category_id = category_db.id
             session.commit()
             session.refresh(product_db)
             return product_db
+        
         except Exception as e:
             return e
         finally:
