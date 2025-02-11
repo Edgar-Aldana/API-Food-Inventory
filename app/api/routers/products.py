@@ -26,6 +26,13 @@ async def get_product(product_id: int):
     return ProductService.find_by_filter(id=product_id)
 
 
+@products_router.post("/", response_model=APIResponse)
+async def create_product(product: ProductCreate):
+
+    response = ProductService.create(product)
+    return APIResponse(success=True, message="Product Created", payload=response.dict()).dict()
+
+
 
 @products_router.post("/request")
 async def request_products(request: ProductRequest):

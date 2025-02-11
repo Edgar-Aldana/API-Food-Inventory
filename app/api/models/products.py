@@ -37,12 +37,13 @@ class Product(Base):
             session.close()
 
     
-    def create(product: ProductCreate):
+    def create(**product):
         try:
-            session.add(product)
+            new_product = Product(**product)
+            session.add(new_product)
             session.commit()
-            session.refresh(product)
-            return product
+            session.refresh(new_product)
+            return new_product
         except Exception as e:
             return e
         finally:

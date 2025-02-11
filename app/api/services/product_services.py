@@ -1,5 +1,6 @@
 from app.api.models.categories import Category
 from app.api.models.inventory import Inventory
+from app.api.services.inventory_services import TransactionService
 from ..schemas.product import ProductCreate, ProductBase, Product as ProductDB
 from ..models import Product
 from app.api.schemas.category import Category as CategorySchema
@@ -32,7 +33,18 @@ class ProductService:
 
     @staticmethod
     def create(product: ProductCreate):
-        new_product = Product.create(product)
+
+        category_id = Category.find_by_filter(name=product.category).id
+        quantity = product.stock
+        product = product.dict()
+        product.pop("stock")
+        product.pop("category")
+
+        new_product = Product.create(**{**product, "category_id": category_id})
+        new_inventory = Inventory.create(product_id=new_product.id, quantity=quantity)
+
+        TransactionService.register("stock_in", quantity, new_inventory.id)
+
         return ProductBase(**new_product.__dict__)
     
     @staticmethod

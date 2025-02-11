@@ -18,8 +18,17 @@ class ProductBaseOutput(BaseModel):
     category_id: str = Field(alias="categoria_id")
 
 
-class ProductCreate(ProductBase):
-    pass
+class ProductCreate(BaseModel):
+
+    name: str
+    description: str
+    price: float
+    category: str
+    stock: int
+    
+
+
+
 
 class Product(ProductBase):
     id: int
