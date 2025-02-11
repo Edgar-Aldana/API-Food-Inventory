@@ -33,10 +33,10 @@ async def create_product(product: ProductCreate):
     return APIResponse(success=True, message="Product Created", payload=response.dict()).dict()
 
 
-@products_router.put("/", response_model=APIResponse)
-async def update_product(product: ProductUpdate):
+@products_router.put("/{product_id}", response_model=APIResponse)
+async def update_product(product_id: int, product: ProductUpdate):
 
-    response = ProductService.update(product)
+    response = ProductService.update(product_id, product)
     return APIResponse(success=True, message="Product Updated", payload=response.dict()).dict()
 
 

@@ -48,9 +48,8 @@ class ProductService:
         return ProductBase(**new_product.__dict__)
     
     @staticmethod
-    def update(product: ProductUpdate):
+    def update(product_id, product: ProductUpdate):
 
-        product_id=product.id
         product_data = ProductCreate(**product.dict())
 
         updated_product = Product.update(product_id, product_data)

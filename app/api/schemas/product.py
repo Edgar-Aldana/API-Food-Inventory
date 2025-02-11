@@ -30,7 +30,6 @@ class ProductCreate(BaseModel):
 
 class ProductUpdate(BaseModel):
 
-    id: int
     name: str
     category: str
     description: str
