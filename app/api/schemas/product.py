@@ -44,6 +44,7 @@ class ProductRequest(BaseModel):
 
 class GetAllProducts(BaseModel):
     products: list[Product]
+    categories: list[str]
 
 class APIResponseGetAllProducts(APIResponse):
     payload: GetAllProducts

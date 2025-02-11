@@ -9,5 +9,14 @@ class Category(Base):
     name = Column(String, unique=True, index=True, nullable=False)
 
     products = relationship("Product", back_populates="category")
+    
+    def find_all():
+        try:
+            response = session.query(Category).all()
+            return response
+        except Exception as e:
+            return e
+        finally:
+            session.close()
 
 

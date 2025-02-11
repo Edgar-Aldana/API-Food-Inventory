@@ -1,6 +1,7 @@
+from app.api.models.categories import Category
 from ..schemas.product import ProductCreate, ProductBase, Product as ProductDB
 from ..models import Product
-
+from app.api.schemas.category import Category as CategorySchema
 
 class ProductService:
 
@@ -35,3 +36,9 @@ class ProductService:
         deleted_product = Product.delete(product_id)
         return ProductBase(**deleted_product.__dict__)
 
+
+    @staticmethod
+    def get_catalog():
+        categories = Category.find_all()
+        categories = [category.name for category in categories]
+        return categories

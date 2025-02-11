@@ -4,13 +4,35 @@ from sqlalchemy.orm import Session
 
 from app.api.models.inventory import Inventory, Transaction
 from ..models import Category, Product
+from ..models import User
 from pathlib import Path
+from passlib.context import CryptContext
 
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str):
+    return pwd_context.hash(password)
+
+
+def create_test_user(db: Session):
+    
+    existing_user = db.query(User).filter(User.username == "admin").first()
+    
+    if not existing_user:
+        test_user = User(
+            username="admin",
+            password_hash=hash_password("admin123")  # Cambia la contraseña si lo deseas
+        )
+        db.add(test_user)
+        db.commit()
+    else:
+        return None
+    
+    db.close()
 
 def initialize_default_products(db: Session, json_path: str = "./api/utils/default_inventory.json"):
     """Carga datos del inventario por defecto solo si las tablas están vacías."""
     
-    # Verifica si hay datos en las tablas
     if db.query(Category).count() > 0 or db.query(Product).count() > 0:
         return
     
@@ -23,7 +45,6 @@ def initialize_default_products(db: Session, json_path: str = "./api/utils/defau
         data = json.load(file)
 
  
-    # Cargar categorías
     category_dict = {}
     for category_data in data.get("categories", []):
         category = Category(name=category_data["name"])
@@ -32,7 +53,7 @@ def initialize_default_products(db: Session, json_path: str = "./api/utils/defau
         db.refresh(category)
         category_dict[category.name] = category.id
 
-    # Cargar productos
+    
     for product_data in data.get("products", []):
 
         category_id = category_dict.get(product_data["category"])
@@ -50,11 +71,9 @@ def initialize_default_products(db: Session, json_path: str = "./api/utils/defau
 
 
 def initialize_default_inventory(db: Session):
-
-    new_inventory_count = db.query(Inventory).count()
-    new_transactions_count = db.query(Transaction).count()
     
     initialize_default_products(db)
+    create_test_user(db)
 
     products = Product.find_all()
     inventories = Inventory.find_all()
@@ -63,10 +82,10 @@ def initialize_default_inventory(db: Session):
         return
     
     for product in products:
-        # Verificar si el producto ya tiene inventario para evitar duplicados
+        
         existing_inventory = db.query(Inventory).filter_by(product_id=product.id).first()
         if existing_inventory:
-            continue  # Si ya existe, no lo agregamos nuevamente
+            continue  
 
         random_quantity = random.randint(42, 256)
         inventory = Inventory(product_id=product.id, quantity=random_quantity)

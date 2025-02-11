@@ -19,6 +19,7 @@ initialize_default_inventory(session)
 
 ###### import routers ######
 from app.api.routers.products import products_router
+from app.api.routers.admin import admin_router
 
 
 app = FastAPI()
@@ -34,6 +35,7 @@ app.add_middleware(
 
 ##### register routers ######
 app.include_router(products_router)
+app.include_router(admin_router)
 
 
 @app.get("/")

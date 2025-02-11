@@ -16,7 +16,8 @@ product_services = ProductService()
 async def get_products():
 
     response = ProductService.find_all()
-    response = GetAllProducts(products=response)
+    catalog = ProductService.get_catalog()
+    response = GetAllProducts(products=response, categories=catalog)
     response = APIResponseGetAllProducts(success=True, message="Products Found", payload=response).dict()
     return response
 
