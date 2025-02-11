@@ -65,8 +65,14 @@ class ProductService:
 
     @staticmethod
     def delete(product_id: int):
-        deleted_product = Product.delete(product_id)
-        return ProductBase(**deleted_product.__dict__)
+
+        inventory = Inventory.find_by_filter(product_id=product_id)
+        Inventory.update(inventory.id, 0)
+
+        TransactionService.register("stock_out", inventory.quantity, inventory.id)
+        disabled_product = Product.disable(product_id)
+
+        return ProductBase(**disabled_product.__dict__)
 
 
     @staticmethod

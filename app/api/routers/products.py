@@ -40,6 +40,15 @@ async def update_product(product_id: int, product: ProductUpdate):
     return APIResponse(success=True, message="Product Updated", payload=response.dict()).dict()
 
 
+@products_router.delete("/{product_id}", response_model=APIResponse)
+async def delete_product(product_id: int):
+
+    response = ProductService.delete(product_id)
+    return APIResponse(success=True, message="Product Deleted", payload=response.dict()).dict()
+
+
+
+
 @products_router.post("/request")
 async def request_products(request: ProductRequest):
     try:

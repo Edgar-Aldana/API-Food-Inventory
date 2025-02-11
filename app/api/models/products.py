@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Boolean, Column, Integer, String, Float, ForeignKey
 
 from app.api.models.categories import Category
-from app.api.schemas.product import ProductCreate
+from app.api.schemas.product import ProductCreate, ProductUpdate
 from ..connection import session, Base
 from sqlalchemy.orm import relationship
 
@@ -15,20 +15,22 @@ class Product(Base):
     description = Column(String, nullable=True)
     price = Column(Float, nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"))
+    is_active = Column(Boolean, default=True) 
 
     category = relationship("Category", back_populates="products")
     inventory = relationship("Inventory", back_populates="product", uselist=False)
 
-    def find_all():
+    def find_all(isTrue: bool = True):
         
         try:
-            return session.query(Product).all()
+            return session.query(Product).filter_by(is_active=isTrue).all()
         except Exception as e:
             return e
         finally:
             session.close()
 
     
+
     def find_by_filter(**kwargs):
         try:
             return session.query(Product).filter_by(**kwargs).first()
@@ -81,6 +83,18 @@ class Product(Base):
         finally:
             session.close()
 
+
+    def disable(product_id: int):
+        try:
+            product_db = session.query(Product).filter_by(id=product_id).first()
+            product_db.is_active = False
+            session.commit()
+            session.refresh(product_db)
+            return product_db
+        except Exception as e:
+            return e
+        finally:
+            session.close()
 
 
 
