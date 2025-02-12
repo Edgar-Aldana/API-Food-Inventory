@@ -12,7 +12,7 @@ Edgar Aldana
 
 ## How to use this API
 
-The API is available at http://localhost:8000/docs
+The API documentation is available at https://api-food-inventory.onrender.com/docs & https://api-food-inventory.onrender.com/redoc
 
 ## Requirements
 
@@ -23,8 +23,29 @@ pip install -r requirements.txt
 
 ``` 
 
+# add .env file
+
+## content example
+
+```bash
+
+DATABASE_NAME='database-inventory-food.db'
+
+SECRET_KEY='secret_key'
+ALGORITHM='HS256'
+ACCESS_TOKEN_EXPIRES_MINUTES=30
+
+```
 
 
+# run app fastapi
+
+```bash
+
+cd app
+fastapi dev food-inventory.py --reload --host 0.0.0.0 --port 8000
+
+```
 
 
 
